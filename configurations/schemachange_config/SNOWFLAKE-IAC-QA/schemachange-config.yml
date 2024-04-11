@@ -1,5 +1,6 @@
-vars:
+config-version: 1
 
-  ENVIRONMENT: "QA"
+ENVIRONMENT: "QA"
+
 
  
