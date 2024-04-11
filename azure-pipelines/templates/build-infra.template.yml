@@ -44,6 +44,6 @@ jobs:
           echo 'Step 1: Installing schemachange'
           pip install schemachange --upgrade
           echo 'Step 2: Running schemachange'
-          schemachange -f $(PROJECT_FOLDER)/migrations -a $(SF_ACCOUNT) --config-folder $(System.DefaultWorkingDirectory)configurations/schemachange_config/SNOWFLAKE-IAC-PROD -u $(SF_USERNAME) -r $(SF_ROLE) -w $(SF_WAREHOUSE) -d $(SF_DATABASE) -c $(SF_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --dry-run
+          schemachange -f $(PROJECT_FOLDER)/migrations -a $(SF_ACCOUNT) --vars $(ENV_VARIABLES) -u $(SF_USERNAME) -r $(SF_ROLE) -w $(SF_WAREHOUSE) -d $(SF_DATABASE) -c $(SF_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --dry-run
       env:
         SNOWFLAKE_PASSWORD: $(SF_PASSWORD)
