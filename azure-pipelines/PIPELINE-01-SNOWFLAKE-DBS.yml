@@ -1,0 +1,68 @@
+# Pipeline that deploys the SNOWFLAKE OBJECTS 
+trigger:
+   - none
+
+variables:
+- template: ../configurations/configuration.variables.yml   
+
+pool:
+  vmImage: $(VM_VERSION)   
+
+stages:
+# BUILD Environment
+- stage: buildinfra
+  displayName: 'Build Environment'
+  variables:
+  - group: snowflake-variables-dev
+
+  jobs: 
+  - template: templates/build-infra.template.yml
+    parameters:
+      PROJECT_FOLDER: $(PROJECT_FOLDER)
+      SF_ACCOUNT: $(SF_ACCOUNT)
+      SF_DATABASE: $(SF_DATABASE)
+      SF_PASSWORD: $(SF_PASSWORD)
+      SF_ROLE: $(SF_ROLE)
+      SF_USERNAME: $(SF_USERNAME)
+      SF_WAREHOUSE: $(SF_WAREHOUSE)
+
+# Deploy QA Environment
+- stage: deployinfra_qa
+  displayName: 'Deploy QA Environment'
+  dependsOn: buildinfra
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  variables:
+  - group: snowflake-variables-QA
+  
+  jobs:
+  - template: templates/deploy-env-infra.template.yml
+    parameters:
+      PROJECT_FOLDER: $(PROJECT_FOLDER)
+      SF_ACCOUNT: $(SF_ACCOUNT)
+      SF_DATABASE: $(SF_DATABASE)
+      SF_PASSWORD: $(SF_PASSWORD)
+      SF_ROLE: $(SF_ROLE)
+      SF_USERNAME: $(SF_USERNAME)
+      SF_WAREHOUSE: $(SF_WAREHOUSE)
+      ENVIRONMENT: SNOWFLAKE-IAC-QA
+
+
+# Deploy PROD Environment
+- stage: deployinfra_prod
+  displayName: 'Deploy PROD Environment'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  variables:
+  - group: snowflake-variables-prod
+  
+  jobs:
+  - template: templates/deploy-env-infra.template.yml
+    parameters:
+      PROJECT_FOLDER: $(PROJECT_FOLDER)
+      SF_ACCOUNT: $(SF_ACCOUNT)
+      SF_DATABASE: $(SF_DATABASE)
+      SF_PASSWORD: $(SF_PASSWORD)
+      SF_ROLE: $(SF_ROLE)
+      SF_USERNAME: $(SF_USERNAME)
+      SF_WAREHOUSE: $(SF_WAREHOUSE)
+      ENVIRONMENT: SNOWFLAKE-IAC-PROD
+

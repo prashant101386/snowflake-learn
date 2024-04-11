@@ -1,0 +1,65 @@
+parameters:
+  - name: PROJECT_FOLDER
+    type: string
+  - name: SF_ACCOUNT
+    type: string
+  - name: SF_DATABASE
+    type: string
+  - name: SF_PASSWORD
+    type: string
+  - name: SF_ROLE
+    type: string
+  - name: SF_USERNAME
+    type: string
+  - name: SF_WAREHOUSE
+    type: string
+
+
+jobs:
+  - job: dryrun_qa
+    displayName: "DRYRUN-QA"
+    variables:
+      - group: snowflake-variables-qa
+  
+    steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.8'
+      inputs:
+        versionSpec: '3.8'
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo 'Starting bash task'
+          echo "PROJECT_FOLDER $(PROJECT_FOLDER)"
+          python --version
+          echo 'Step 1: Installing schemachange'
+          pip install schemachange --upgrade
+          echo 'Step 2: Running schemachange'
+          schemachange -f $(PROJECT_FOLDER)/migrations -a $(SF_ACCOUNT) --config-folder $(System.DefaultWorkingDirectory)configurations/schemachange_config/SNOWFLAKE-IAC-DEV -u $(SF_USERNAME) -r $(SF_ROLE) -w $(SF_WAREHOUSE) -d $(SF_DATABASE) -c $(SF_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --dry-run
+      env:
+        SNOWFLAKE_PASSWORD: $(SF_PASSWORD)    
+
+  - job: dryrun_prod
+    displayName: "DRYRUN-PROD"
+    variables:
+      - group: snowflake-variables-prod
+      
+    steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.8'
+      inputs:
+        versionSpec: '3.8'
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo 'Starting bash task'
+          echo "PROJECT_FOLDER $(PROJECT_FOLDER)"
+          python --version
+          echo 'Step 1: Installing schemachange'
+          pip install schemachange --upgrade
+          echo 'Step 2: Running schemachange'
+          schemachange -f $(PROJECT_FOLDER)/migrations -a $(SF_ACCOUNT) --config-folder $(System.DefaultWorkingDirectory)configurations/schemachange_config/SNOWFLAKE-IAC-DEV -u $(SF_USERNAME) -r $(SF_ROLE) -w $(SF_WAREHOUSE) -d $(SF_DATABASE) -c $(SF_DATABASE).SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table --dry-run
+      env:
+        SNOWFLAKE_PASSWORD: $(SF_PASSWORD)
