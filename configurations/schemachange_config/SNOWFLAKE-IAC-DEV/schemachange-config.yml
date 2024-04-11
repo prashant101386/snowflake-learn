@@ -1,0 +1,7 @@
+config-version: 1
+
+root-folder: scripts
+modules-folder: modules
+vars:
+  ENVIRONMENT: {{env_var('QA')}}
+ 
