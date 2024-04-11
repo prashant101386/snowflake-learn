@@ -1,3 +1,4 @@
 config-version: 1
+ENVIRONMENT: 'PROD'
 vars:
   ENVIRONMENT: 'PROD'
