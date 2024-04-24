@@ -1,7 +1,11 @@
 config-version: 1
-
-root-folder: scripts
-modules-folder: modules
+ENVIRONMENT: SNOWFLAKE-IAC-QA
+SF_ACCOUNT: ruflksm-ap56195
+SF_DATABASE: QA_DEFAULT_DB
+PROJECT_FOLDER: $(System.DefaultWorkingDirectory)
+SF_ROLE: QA_DEVOPS_FR
+SF_USERNAME: QA_DEVOPS_FR
+SF_WAREHOUSE: DEFAULT_WH
 vars:
-  ENVIRONMENT: {{env_var('QA')}}
- 
+  ENVIRONMENT: 'QA'
+
