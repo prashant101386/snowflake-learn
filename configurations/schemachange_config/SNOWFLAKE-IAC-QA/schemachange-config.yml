@@ -5,7 +5,7 @@ snowflake-database: 'QA_DEFAULT_DB'
 snowflake-role: 'QA_DEVOPS_FR'
 snowflake-user: 'QA_DEVOPS_FR'
 snowflake-warehouse: 'DEFAULT_WH'
-root-folder: '$(System.DefaultWorkingDirectory)/migrations'
+root-folder: '/migrations'
 create-change-history-table: 'QA_DEFAULT_DB.SCHEMACHANGE.CHANGE_HISTORY'
 vars:
   ENVIRONMENT: 'QA'
