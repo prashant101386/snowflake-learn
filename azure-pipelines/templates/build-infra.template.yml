@@ -20,7 +20,7 @@ jobs:
           echo 'Step 1: Installing schemachange'
           pip install schemachange --upgrade
           echo 'Step 2: Running schemachange'
-          schemachange --config-folder $(System.DefaultWorkingDirectory)/schemachange_config/SNOWFLAKE-IAC-QA --dry-run
+          schemachange --config-folder $(System.DefaultWorkingDirectory)/configurations/schemachange_config/SNOWFLAKE-IAC-QA --dry-run
       env:
         SNOWFLAKE_PASSWORD: $(SF_PASSWORD)    
 
@@ -44,6 +44,6 @@ jobs:
           echo 'Step 1: Installing schemachange'
           pip install schemachange --upgrade
           echo 'Step 2: Running schemachange'
-          schemachange --config-folder $(System.DefaultWorkingDirectory)/schemachange_config/SNOWFLAKE-IAC-PROD --dry-run
+          schemachange --config-folder $(System.DefaultWorkingDirectory)/configurations/schemachange_config/SNOWFLAKE-IAC-PROD --dry-run
       env:
         SNOWFLAKE_PASSWORD: $(SF_PASSWORD)

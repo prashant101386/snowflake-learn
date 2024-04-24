@@ -6,5 +6,6 @@ snowflake-role: PROD_DEVOPS_FR
 snowflake-user: PROD_DEVOPS_FR
 snowflake-warehouse: DEFAULT_WH
 root-folder: '$(System.DefaultWorkingDirectory)/migrations'
+create-change-history-table: 'PROD_DEFAULT_DB.SCHEMACHANGE.CHANGE_HISTORY'
 vars:
   ENVIRONMENT: 'PROD'
