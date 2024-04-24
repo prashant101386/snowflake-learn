@@ -1,10 +1,10 @@
 config-version: 1
 ENVIRONMENT: SNOWFLAKE-IAC-PROD
-SF_ACCOUNT: ruflksm-ap56195
-SF_DATABASE: PROD_DEFAULT_DB
-PROJECT_FOLDER: $(System.DefaultWorkingDirectory)
-SF_ROLE: PROD_DEVOPS_FR
-SF_USERNAME: PROD_DEVOPS_FR
-SF_WAREHOUSE: DEFAULT_WH
+snowflake-account: ruflksm-ap56195
+snowflake-database: PROD_DEFAULT_DB
+snowflake-role: PROD_DEVOPS_FR
+snowflake-user: PROD_DEVOPS_FR
+snowflake-warehouse: DEFAULT_WH
+root-folder: '$(System.DefaultWorkingDirectory)/migrations'
 vars:
   ENVIRONMENT: 'PROD'
