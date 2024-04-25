@@ -1,0 +1,3 @@
+{% macro create_grant(ENVIRONMENT) -%}
+GRANT USAGE ON DATABASE "{{ENVIRONMENT}}_RAW_DB" TO ROLE "{{ENVIRONMENT}}_SYSADMIN";
+{%- endmacro %}
