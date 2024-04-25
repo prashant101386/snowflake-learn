@@ -40,6 +40,6 @@ jobs:
                 echo 'Step 1: Installing schemachange'
                 pip install schemachange --upgrade
                 echo 'Step 2: Running schemachange'
-                schemachange -f ${{parameters.PROJECT_FOLDER}}/migrations -a ${{parameters.SF_ACCOUNT}} --vars $(ENV_VARIABLES) -u ${{parameters.SF_USERNAME}} -r ${{parameters.SF_ROLE}} -w ${{parameters.SF_WAREHOUSE}} -d ${{parameters.SF_DATABASE}} -c ${{parameters.SF_DATABASE}}.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table
+                schemachange --config-folder $(System.DefaultWorkingDirectory)/configurations/schemachange_config/${{parameters.ENVIRONMENT}}
             env:
               SNOWFLAKE_PASSWORD: ${{parameters.SF_PASSWORD}}
