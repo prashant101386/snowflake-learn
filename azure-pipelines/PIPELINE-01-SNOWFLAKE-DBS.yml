@@ -29,7 +29,7 @@ stages:
 # Deploy QA Environment
 - stage: deployinfra_qa
   displayName: 'Deploy QA Environment'
-  dependsOn: buildinfra
+  # dependsOn: buildinfra
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   variables:
   - group: snowflake-variables-QA
