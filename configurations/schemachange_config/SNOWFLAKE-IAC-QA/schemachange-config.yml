@@ -1,12 +1,12 @@
 config-version: 1
 ENVIRONMENT: SNOWFLAKE-IAC-QA
 snowflake-account: 'ruflksm-ap56195'
-snowflake-database: 'DEMO_DB'
-snowflake-role: 'DEMO_ROLE'
-snowflake-user: 'DEMO_USER'
-snowflake-warehouse: 'DEMO_WH'
+snowflake-database: 'QA_DEFAULT_DB'
+snowflake-role: 'QA_DEVOPS_FR'
+snowflake-user: 'QA_DEVOPS_FR'
+snowflake-warehouse: 'DEFAULT_WH'
 root-folder: 'migrations'
-change-history-table: 'DEMO.SCHEMACHANGE.CHANGE_HISTORY'
+change-history-table: 'QA_DEFAULT_DB.SCHEMACHANGE.CHANGE_HISTORY'
 create-change-history-table: true
 modules-folder: 'modules'
 vars:
