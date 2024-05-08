@@ -11,3 +11,4 @@ create-change-history-table: true
 modules-folder: 'modules'
 vars:
   ENVIRONMENT: 'PROD'
+  CONDITION: '1'

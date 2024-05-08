@@ -11,4 +11,5 @@ create-change-history-table: true
 modules-folder: 'modules'
 vars:
   ENVIRONMENT: 'QA'
+  CONDITION: '0'
 
