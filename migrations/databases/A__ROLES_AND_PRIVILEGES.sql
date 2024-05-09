@@ -16,8 +16,6 @@ BEGIN
         CREATE ROLE IF NOT EXISTS "{{ENVIRONMENT}}_BUSINESS_FR";
         GRANT ROLE "{{ENVIRONMENT}}_BUSINESS_FR" TO ROLE SYSADMIN;  
       END
-    ELSE
-      -- Handle other cases if needed
   END CASE;
 END;
 
