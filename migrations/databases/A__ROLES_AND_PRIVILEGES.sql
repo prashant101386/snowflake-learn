@@ -1,7 +1,5 @@
-
 BEGIN
-  LET count := 1;
-  IF (count = 1) THEN
+  IF (count = {{CONDITION}}) THEN
   USE ROLE USERADMIN;
   CREATE ROLE IF NOT EXISTS "AZURE3_AZURE_FR";
   ELSE
