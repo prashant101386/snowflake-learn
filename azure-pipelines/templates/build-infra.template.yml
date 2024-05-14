@@ -1,0 +1,81 @@
+parameters:
+  - name: OBJECT_TYPE
+    type: string
+
+jobs:
+  - job: dryrun_dev
+    displayName: "DRYRUN-DEV"
+    variables:
+      - group: snowflake-variables-dev
+      - template: ../../configurations/configuration-infra-DEV.variables.yml
+  
+    steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.8'
+      inputs:
+        versionSpec: '3.8'
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo 'Starting bash task'
+          echo "PROJECT_FOLDER $(PROJECT_FOLDER)"
+          python --version
+          echo 'Step 1: Installing schemachange'
+          pip install schemachange --upgrade
+          echo 'Step 2: Running schemachange'
+          schemachange -f $(${{parameters.OBJECT_TYPE}}_ROOT_FOLDER) -a $(SF_ACCOUNT) --vars $(ENV_VARIABLES) -u $(SF_USERNAME) -r $(SF_ROLE) -w $(SF_WAREHOUSE) -d $(SF_DATABASE) -c $(SF_DATABASE).SCHEMACHANGE.$(SCHEMA)_CHANGE_HISTORY --create-change-history-table --dry-run
+      env:
+        SNOWFLAKE_PASSWORD: $(SF_PASSWORD)
+
+  - job: dryrun_qa
+    displayName: "DRYRUN-QA"
+    dependsOn: dryrun_dev
+    variables:
+      - group: snowflake-variables-qa
+      - template: ../../configurations/configuration-infra-QA.variables.yml
+  
+    steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.8'
+      inputs:
+        versionSpec: '3.8'
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo 'Starting bash task'
+          echo "PROJECT_FOLDER $(PROJECT_FOLDER)"
+          python --version
+          echo 'Step 1: Installing schemachange'
+          pip install schemachange --upgrade
+          echo 'Step 2: Running schemachange'
+          schemachange -f $(${{parameters.OBJECT_TYPE}}_ROOT_FOLDER) -a $(SF_ACCOUNT) --vars $(ENV_VARIABLES) -u $(SF_USERNAME) -r $(SF_ROLE) -w $(SF_WAREHOUSE) -d $(SF_DATABASE) -c $(SF_DATABASE).SCHEMACHANGE.$(SCHEMA)_CHANGE_HISTORY --create-change-history-table --dry-run
+      env:
+        SNOWFLAKE_PASSWORD: $(SF_PASSWORD)    
+
+  - job: dryrun_prod
+    displayName: "DRYRUN-PROD"
+    dependsOn: dryrun_qa
+    variables:
+      - group: snowflake-variables-prod
+      - template: ../../configurations/configuration-infra-PROD.variables.yml
+      
+    steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python 3.8'
+      inputs:
+        versionSpec: '3.8'
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: |
+          echo 'Starting bash task'
+          echo "PROJECT_FOLDER $(PROJECT_FOLDER)"
+          python --version
+          echo 'Step 1: Installing schemachange'
+          pip install schemachange --upgrade
+          echo 'Step 2: Running schemachange'
+          schemachange -f $(${{parameters.OBJECT_TYPE}}_ROOT_FOLDER) -a $(SF_ACCOUNT) --vars $(ENV_VARIABLES) -u $(SF_USERNAME) -r $(SF_ROLE) -w $(SF_WAREHOUSE) -d $(SF_DATABASE) -c $(SF_DATABASE).SCHEMACHANGE.$(SCHEMA)_CHANGE_HISTORY --create-change-history-table --dry-run
+      env:
+        SNOWFLAKE_PASSWORD: $(SF_PASSWORD)

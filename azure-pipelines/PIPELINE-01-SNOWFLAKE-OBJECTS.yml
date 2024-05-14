@@ -1,0 +1,88 @@
+# Pipeline that deploys the SNOWFLAKE SCHEMA & TABLES 
+trigger:
+   - none
+
+variables:
+- template: ../configurations/configuration.variables.yml   
+
+pool:
+  vmImage: $(VM_VERSION)   
+
+stages:
+# BUILD Environment
+- stage: buildinfra
+  displayName: 'Build Environment'
+  jobs: 
+  - template: templates/build-infra.template.yml
+    parameters:
+      OBJECT_TYPE: SCHEMA
+
+# Deploy DEV Environment
+- stage: deployinfra_dev
+  displayName: 'Deploy DEV Environment'
+  dependsOn: buildinfra
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  variables:
+  - group: snowflake-variables-dev
+  - template: ../configurations/configuration-infra-DEV.variables.yml
+  
+  jobs:
+  - template: templates/deploy-env-infra.template.yml
+    parameters:
+      PROJECT_FOLDER: $(PROJECT_FOLDER)
+      SF_ACCOUNT: $(SF_ACCOUNT)
+      SF_DATABASE: $(SF_DATABASE)
+      SF_PASSWORD: $(SF_PASSWORD)
+      SF_ROLE: $(SF_ROLE)
+      SF_USERNAME: $(SF_USERNAME)
+      SF_WAREHOUSE: $(SF_WAREHOUSE)
+      ROOT_FOLDER: $(SCHEMA_ROOT_FOLDER)
+      SCHEMA: $(SCHEMA)
+      ENVIRONMENT: SNOWFLAKE-IAC-DEV
+
+# Deploy QA Environment
+- stage: deployinfra_qa
+  displayName: 'Deploy QA Environment'
+  dependsOn: deployinfra_dev
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  variables:
+  - group: snowflake-variables-qa
+  - template: ../configurations/configuration-infra-QA.variables.yml
+  
+  jobs:
+  - template: templates/deploy-env-infra.template.yml
+    parameters:
+      PROJECT_FOLDER: $(PROJECT_FOLDER)
+      SF_ACCOUNT: $(SF_ACCOUNT)
+      SF_DATABASE: $(SF_DATABASE)
+      SF_PASSWORD: $(SF_PASSWORD)
+      SF_ROLE: $(SF_ROLE)
+      SF_USERNAME: $(SF_USERNAME)
+      SF_WAREHOUSE: $(SF_WAREHOUSE)
+      ROOT_FOLDER: $(SCHEMA_ROOT_FOLDER)
+      SCHEMA: $(SCHEMA)
+      ENVIRONMENT: SNOWFLAKE-IAC-QA
+
+
+# Deploy PROD Environment
+- stage: deployinfra_prod
+  displayName: 'Deploy PROD Environment'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  dependsOn: deployinfra_qa
+  variables:
+  - group: snowflake-variables-prod
+  - template: ../configurations/configuration-infra-PROD.variables.yml
+  
+  jobs:
+  - template: templates/deploy-env-infra.template.yml
+    parameters:
+      PROJECT_FOLDER: $(PROJECT_FOLDER)
+      SF_ACCOUNT: $(SF_ACCOUNT)
+      SF_DATABASE: $(SF_DATABASE)
+      SF_PASSWORD: $(SF_PASSWORD)
+      SF_ROLE: $(SF_ROLE)
+      SF_USERNAME: $(SF_USERNAME)
+      SF_WAREHOUSE: $(SF_WAREHOUSE)
+      ROOT_FOLDER: $(SCHEMA_ROOT_FOLDER)
+      SCHEMA: $(SCHEMA)
+      ENVIRONMENT: SNOWFLAKE-IAC-PROD

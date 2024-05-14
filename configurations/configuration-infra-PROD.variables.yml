@@ -1,0 +1,20 @@
+variables:
+  # PROD Environment
+  ENVIRONMENT: SNOWFLAKE-IAC-PROD
+  SF_ACCOUNT: QC70969-DTNA_PROD
+  SF_DATABASE: PRD_COMMON_DB
+  PROJECT_FOLDER: $(System.DefaultWorkingDirectory)
+  SCHEMA_ROOT_FOLDER: $(System.DefaultWorkingDirectory)/DATABASE/CURATED/SCHEMA
+  ROLES_ROOT_FOLDER: $(System.DefaultWorkingDirectory)/DATABASE/CURATED/ROLES
+  WAREHOUSE_ROOT_FOLDER: $(System.DefaultWorkingDirectory)/DATABASE/CURATED/WAREHOUSE
+  SF_ROLE: PRD_SYSADMIN
+  SF_USERNAME: DEVOPS_ADMIN_SA
+  SF_WAREHOUSE: DEVOPS_CICD_WH
+  SCHEMA: CUSTOMS
+  ENV_VARIABLES: '''{"ENVIRONMENT":"PRD",
+                     "ACCESS_TYPE":"WITH MANAGED ACCESS",
+                     "DATABASE":"CURATED",
+                     "SCHEMA":"CUSTOMS",
+                     "ACCESS_3":"R",
+                     "ACCESS_2":"R",
+                     "ACCESS_1":"R"}'''

@@ -1,0 +1,22 @@
+variables:
+  # DEV Environment
+  ENVIRONMENT: SNOWFLAKE-IAC-DEV
+  SF_ACCOUNT: QC70969-DTNA_PROD
+  SF_DATABASE: DEV_COMMON_DB
+  PROJECT_FOLDER: $(System.DefaultWorkingDirectory)
+  SCHEMA_ROOT_FOLDER: $(System.DefaultWorkingDirectory)/DATABASE/CURATED/SCHEMA
+  ROLES_ROOT_FOLDER: $(System.DefaultWorkingDirectory)/DATABASE/CURATED/DEV_ROLES
+  WAREHOUSE_ROOT_FOLDER: $(System.DefaultWorkingDirectory)/DATABASE/CURATED/WAREHOUSE
+  SF_ROLE: DEV_SYSADMIN
+  SF_USERNAME: DEVOPS_ADMIN_SA
+  SF_WAREHOUSE: DEVOPS_CICD_WH
+  SCHEMA: CUSTOMS
+  ENV_VARIABLES: '''{"ENVIRONMENT":"DEV",
+                     "DATABASE":"CURATED",
+                     "SCHEMA":"CUSTOMS",
+                     "ACCESS_TYPE":"",
+                     "ACCESS_3":"FULL",
+                     "ACCESS_2":"RW",
+                     "ACCESS_1":"R"}'''
+  
+   
