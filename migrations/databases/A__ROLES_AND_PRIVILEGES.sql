@@ -1,3 +1,4 @@
+$$
 BEGIN
   IF (count = {{CONDITION}}) THEN
   USE ROLE USERADMIN;
@@ -6,3 +7,4 @@ BEGIN
     RETURN 'positive value';
   END IF;
 END;
+$$
