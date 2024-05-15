@@ -2,6 +2,19 @@
 trigger:
    - none
 
+parameters:
+- name: ObjectType
+  displayName: Select Object type
+  type: string
+  default: 'SCHEMA'
+  values:
+  - SCHEMA
+  - WAREHOUSE
+  - ROLES
+- name: Schema
+  displayName: Enter Schema name
+  type: string   
+
 variables:
 - template: ../configurations/configuration.variables.yml   
 
@@ -15,7 +28,7 @@ stages:
   jobs: 
   - template: templates/build-infra.template.yml
     parameters:
-      OBJECT_TYPE: SCHEMA
+      OBJECT_TYPE: ${{parameters.ObjectType}}
 
 # Deploy DEV Environment
 - stage: deployinfra_dev
@@ -36,8 +49,8 @@ stages:
       SF_ROLE: $(SF_ROLE)
       SF_USERNAME: $(SF_USERNAME)
       SF_WAREHOUSE: $(SF_WAREHOUSE)
-      ROOT_FOLDER: $(SCHEMA_ROOT_FOLDER)
-      SCHEMA: $(SCHEMA)
+      ROOT_FOLDER: $(${{parameters.ObjectType}}_ROOT_FOLDER)
+      SCHEMA: ${{parameters.ObjectType}}
       ENVIRONMENT: SNOWFLAKE-IAC-DEV
 
 # Deploy QA Environment
