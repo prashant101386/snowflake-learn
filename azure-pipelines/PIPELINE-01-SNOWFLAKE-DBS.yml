@@ -32,7 +32,7 @@ stages:
   # dependsOn: buildinfra
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   variables:
-  - group: snowflake-variables-QA
+  - group: Arti-Snowflake
   
   jobs:
   - template: templates/deploy-env-infra.template.yml
@@ -48,21 +48,21 @@ stages:
 
 
 # Deploy PROD Environment
-- stage: deployinfra_prod
-  displayName: 'Deploy PROD Environment'
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-  variables:
-  - group: snowflake-variables-prod
-  
-  jobs:
-  - template: templates/deploy-env-infra.template.yml
-    parameters:
-      PROJECT_FOLDER: $(PROJECT_FOLDER)
-      SF_ACCOUNT: $(SF_ACCOUNT)
-      SF_DATABASE: $(SF_DATABASE)
-      SF_PASSWORD: $(SF_PASSWORD)
-      SF_ROLE: $(SF_ROLE)
-      SF_USERNAME: $(SF_USERNAME)
-      SF_WAREHOUSE: $(SF_WAREHOUSE)
-      ENVIRONMENT: SNOWFLAKE-IAC-PROD
+#- stage: deployinfra_prod
+#  displayName: 'Deploy PROD Environment'
+#  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+#  variables:
+#  - group: snowflake-variables-prod
+#  
+#  jobs:
+#  - template: templates/deploy-env-infra.template.yml
+#    parameters:
+#      PROJECT_FOLDER: $(PROJECT_FOLDER)
+#      SF_ACCOUNT: $(SF_ACCOUNT)
+#      SF_DATABASE: $(SF_DATABASE)
+#      SF_PASSWORD: $(SF_PASSWORD)
+#      SF_ROLE: $(SF_ROLE)
+#      SF_USERNAME: $(SF_USERNAME)
+#      SF_WAREHOUSE: $(SF_WAREHOUSE)
+#      ENVIRONMENT: SNOWFLAKE-IAC-PROD
 
