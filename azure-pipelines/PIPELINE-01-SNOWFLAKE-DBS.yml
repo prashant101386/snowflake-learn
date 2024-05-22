@@ -32,7 +32,7 @@ stages:
   # dependsOn: buildinfra
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   variables:
-  - group: Arti-Snowflake
+  - group: Arti_Snowflake
   
   jobs:
   - template: templates/deploy-env-infra.template.yml
